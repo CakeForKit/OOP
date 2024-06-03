@@ -12,7 +12,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     virtual ~MainWindow() = default;
-
 private:
     QWidget *widget;    
     Lift lift;

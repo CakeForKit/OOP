@@ -5,15 +5,10 @@
 #include <QLabel>
 #include <vector>
 #include <memory>
+#include <utility>
 
 #include "ButtonLift.h"
-
-enum Direction
-{
-    UP = 1,
-    DOWN = -1,
-    STOP = 0
-};
+#include "CabinLift.h"
 
 class ControllerLift: public QWidget
 {
@@ -23,7 +18,8 @@ class ControllerLift: public QWidget
     {
         FREE,
         BUSY,
-        INSEARCH
+        INSEARCH,
+        PUSHED_BTN
     };
 
 public:
@@ -31,15 +27,19 @@ public:
     ~ControllerLift() noexcept = default;
 
 signals:
-    void MoveSignal(int _currectFloor, Direction _direction);
-    void StopSignal(int _currentFloor);
-    void GetTargetSignal();
-    void FloorReachedSignal(int _floor, Direction _direction); // на каком этаже это произошло и куда направлялись до этого
-
+    void MoveControllerSignal(int _currectFloor, int _targetFloor, Direction _direction);
+    void StopOnFloorSignal(int _currectFloor);
+    void EndActionButtonSignal(int _currectFloor, TypeBtn _typeBtn);;
+    void NeedNewTargetSignal();
+    void GotTargetSignal(int currentFloor, int _targetFloor);
+    void NoTargetSignal();
+    void StopCabinSignal(int _currectFloor);
+    
 public slots:
-    void buttonPushedSlot(int _floor, TypeBtn _typeBtn);
-    void GetTargetSlot();
-    void FloorReachedSlot(int _floor, Direction _direction);
+    void ButtonPushedSlot(int _floor, TypeBtn _typeBtn);
+    void GotTargetSlot(int _currentFloor, int _targetFloor);
+    void SearchTargetSlot();
+    void FreeSlot();
 
 private:
     StatusControllerLift status;
@@ -52,13 +52,12 @@ private:
     std::vector<std::shared_ptr<ButtonLift>> inLiftButtons;
     std::unique_ptr<QGridLayout> layout;
 
-    std::vector<bool> callsFloorsUp;
-    std::vector<bool> callsFloorsDown;
-    std::vector<bool> callsFloorsInLift;
+    std::vector<std::pair<bool, TypeBtn>> callsFloorsUp;
+    std::vector<std::pair<bool, TypeBtn>> callsFloorsDown;
+    std::vector<std::pair<bool, TypeBtn>> callsFloorsInLift;
 
-    void searchNewTarget();
-    void updateTarget(int _floor, TypeBtn _typeBtn);
-    bool isFloorExist(int _floor);
+    void endActionButtons(int floor);
+    bool isFloorExist(int floor);
     inline int floorByIndex(size_t ind) noexcept;
     inline size_t indexByFloor(int floor) noexcept;
     inline size_t countFloors() noexcept;

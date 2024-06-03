@@ -1,36 +1,55 @@
 #pragma once
-#include "ControllerLift.h"
+// #include "ControllerLift.h"
 #include <QObject>
 #include <QTimer>
 #include <iostream>
 
-#define MOVETIME 2000
+#include "DoorsLift.h"
+
+enum Direction
+{
+    UP = 1,
+    DOWN = -1,
+    STOP = 0
+};
 
 class CabinLift : public QObject {
     Q_OBJECT
 
     enum StatusCabinLift {
         STAND,
-        MOVING
+        STANDOPEN,
+        MOVING,
+        GOTCOMMAND
     };
 
     public:
-        CabinLift(int movetime = 1000, int stoptime = 200, QObject *parent = 0);
+        CabinLift(QObject *parent = nullptr, int movetime = 3000);
         ~CabinLift() = default;
     
     public slots:
-        void MoveCabinSlot(int currentFloor, Direction direction);
-        void StopCabinSlot(int floor);
+        void GotCommandMove(int currentFloor, int _targetFloor, Direction direction);
+        void StopToOpenCabinSlot(int floor);
+        void CloseDoorsCabinSlot();
+        void StandCabinSlot(int floor);
+
+    private slots:
+        void MoveCabinSlot();
 
     private:
         StatusCabinLift status;
-        // LiftDoors doors;
+        int currentFloor;
+        int targetFloor;
+        Direction direction;
 
         QTimer timer;
         int movetime;
-        int stoptime;
+
+        DoorsLift doors;
     
     signals:
-        void ReachedFloorCabinSignal(int floor, Direction direction);
-        void OpenDoorsSignal(int floor);
+        void ReachedFloorCabinSignal(int currentFloor, int _targetFloor);
+        void OpenDoorsSignal();
+        void DoorsClosedSignal();
+        void MoveSignal();
 };

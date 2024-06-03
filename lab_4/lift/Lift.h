@@ -1,5 +1,4 @@
 #pragma once
-#include "CabinLift.h"
 #include "ControllerLift.h"
 #include <QObject>
 

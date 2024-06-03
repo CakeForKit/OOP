@@ -1,5 +1,7 @@
 #include "ButtonLift.h"
 
+#include <iostream>
+
 ButtonLift::ButtonLift(int buttonFloor, TypeBtn _type, QPushButton *parant) 
 : QPushButton(parant), status(NOTPRESSED), direction(_type), floor(buttonFloor)
 {
@@ -13,7 +15,7 @@ ButtonLift::ButtonLift(int buttonFloor, TypeBtn _type, QPushButton *parant)
     } else {
         label = "";
     }
-    this->setText(QString::number(floor) + QString(" (") + label + QString(")"));
+    this->setText(QString::number(floor) + QString(" ") + label);
 }
 
 void ButtonLift::pressedButtonSlot()

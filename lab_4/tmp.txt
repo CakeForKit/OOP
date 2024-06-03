@@ -1,0 +1,145 @@
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = 1
+	ControllerLift::GotTargetSlot cur - 1 trgt - 1
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются
+	DoorsLift::OpenSlot
+Двери открыты
+	DoorsLift::ClosingSlot
+Двери закрываются
+	DoorsLift::CloseSlot
+Двери закрыты
+	CabinLift::CloseDoorsCabinSlot
+	ControllerLift::SearchTargetSlot
+	ControllerLift::FreeSlot
+	CabinLift::StandCabinSlot
+Лифт стоит на 1 этаже.
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = 1
+	ControllerLift::GotTargetSlot cur - 1 trgt - 1
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются
+	DoorsLift::OpenSlot
+Двери открыты
+	DoorsLift::ClosingSlot
+Двери закрываются
+	DoorsLift::CloseSlot
+Двери закрыты
+	CabinLift::CloseDoorsCabinSlot
+	ControllerLift::SearchTargetSlot
+	ControllerLift::FreeSlot
+	CabinLift::StandCabinSlot
+Лифт стоит на 1 этаже.
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = -1
+	ControllerLift::GotTargetSlot cur - 1 trgt - -1
+	CabinLift::GotCommandMove cur - 1 trgt - -1
+	CabinLift::MoveCabinSlot cur - 1 trgt - -1
+Лифт на 0 этаже.
+	ControllerLift::GotTargetSlot cur - 0 trgt - -1
+	CabinLift::GotCommandMove cur - 0 trgt - -1
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = -1
+	ControllerLift::GotTargetSlot cur - 0 trgt - -1
+	CabinLift::GotCommandMove cur - 0 trgt - -1
+	CabinLift::MoveCabinSlot cur - 0 trgt - -1
+Лифт на -1 этаже.
+	ControllerLift::GotTargetSlot cur - -1 trgt - -1
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются
+	DoorsLift::OpenSlot
+Двери открыты
+	DoorsLift::ClosingSlot
+Двери закрываются
+	DoorsLift::CloseSlot
+Двери закрыты
+	CabinLift::CloseDoorsCabinSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = 2
+	ControllerLift::GotTargetSlot cur - -1 trgt - 2
+	CabinLift::GotCommandMove cur - -1 trgt - 2
+	CabinLift::MoveCabinSlot cur - -1 trgt - 2
+Лифт на 0 этаже.
+	ControllerLift::GotTargetSlot cur - 0 trgt - 2
+	CabinLift::GotCommandMove cur - 0 trgt - 2
+	CabinLift::MoveCabinSlot cur - 0 trgt - 2
+Лифт на 1 этаже.
+	ControllerLift::GotTargetSlot cur - 1 trgt - 2
+	CabinLift::GotCommandMove cur - 1 trgt - 2
+	CabinLift::MoveCabinSlot cur - 1 trgt - 2
+Лифт на 2 этаже.
+	ControllerLift::GotTargetSlot cur - 2 trgt - 2
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются
+	DoorsLift::OpenSlot
+Двери открыты
+	DoorsLift::ClosingSlot
+Двери закрываются
+	DoorsLift::CloseSlot
+Двери закрыты
+	CabinLift::CloseDoorsCabinSlot
+	ControllerLift::SearchTargetSlot
+	ControllerLift::FreeSlot
+	CabinLift::StandCabinSlot
+Лифт стоит на 2 этаже.
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = -1
+	ControllerLift::GotTargetSlot cur - 2 trgt - -1
+	CabinLift::GotCommandMove cur - 2 trgt - -1
+	CabinLift::MoveCabinSlot cur - 2 trgt - -1
+Лифт на 1 этаже.
+	ControllerLift::GotTargetSlot cur - 1 trgt - -1
+	CabinLift::GotCommandMove cur - 1 trgt - -1
+	ControllerLift::ButtonPushedSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = -1
+	ControllerLift::GotTargetSlot cur - 1 trgt - -1
+	CabinLift::GotCommandMove cur - 1 trgt - -1
+	CabinLift::MoveCabinSlot cur - 1 trgt - -1
+Лифт на 0 этаже.
+	ControllerLift::GotTargetSlot cur - 0 trgt - -1
+	CabinLift::GotCommandMove cur - 0 trgt - -1
+	CabinLift::MoveCabinSlot cur - 0 trgt - -1
+Лифт на -1 этаже.
+	ControllerLift::GotTargetSlot cur - -1 trgt - -1
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются
+	DoorsLift::OpenSlot
+Двери открыты
+	DoorsLift::ClosingSlot
+Двери закрываются
+	DoorsLift::CloseSlot
+Двери закрыты
+	CabinLift::CloseDoorsCabinSlot
+	ControllerLift::SearchTargetSlot
+		 INLIFT targetFloor = 3
+	ControllerLift::GotTargetSlot cur - -1 trgt - 3
+	CabinLift::GotCommandMove cur - -1 trgt - 3
+	CabinLift::MoveCabinSlot cur - -1 trgt - 3
+Лифт на 0 этаже.
+	ControllerLift::GotTargetSlot cur - 0 trgt - 3
+	CabinLift::GotCommandMove cur - 0 trgt - 3
+	CabinLift::MoveCabinSlot cur - 0 trgt - 3
+Лифт на 1 этаже.
+	ControllerLift::GotTargetSlot cur - 1 trgt - 3
+	CabinLift::GotCommandMove cur - 1 trgt - 3
+	CabinLift::MoveCabinSlot cur - 1 trgt - 3
+Лифт на 2 этаже.
+	ControllerLift::GotTargetSlot cur - 2 trgt - 3
+	CabinLift::GotCommandMove cur - 2 trgt - 3
+	CabinLift::MoveCabinSlot cur - 2 trgt - 3
+Лифт на 3 этаже.
+	ControllerLift::GotTargetSlot cur - 3 trgt - 3
+	CabinLift::StopToOpenCabinSlot
+	DoorsLift::OpeningSlot
+Двери открываются

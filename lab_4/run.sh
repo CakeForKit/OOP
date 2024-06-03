@@ -2,5 +2,4 @@
 
 qmake
 make
-uic interface.ui -o interface.h
-./lab_3
+./lab_4

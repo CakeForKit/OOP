@@ -81,32 +81,6 @@ void ControllerLift::ButtonPushedSlot(int _floor, TypeBtn _typeBtn)
     emit NeedNewTargetSignal();
 }
 
-void ControllerLift::GotTargetSlot(int _currentFloor, int _targetFloor)
-{
-    if (DEBUG)
-        std::cout << "\tControllerLift::GotTargetSlot" << 
-            " cur - " << _currentFloor << " trgt - " << _targetFloor <<  std::endl;
-
-    if (!(status == BUSY || status == INSEARCH))
-        return;
-
-    status = BUSY;
-    currentFloor = _currentFloor;
-    targetFloor = _targetFloor;
-
-    if (currentFloor == targetFloor)
-    {
-        endActionButtons(currentFloor);
-        emit StopOnFloorSignal(currentFloor);
-        // emit NeedNewTargetSignal();
-    }
-    else
-    {
-        direction = currentFloor > targetFloor ? DOWN : UP;
-        emit MoveControllerSignal(currentFloor, targetFloor, direction);
-    }
-}
-
 void ControllerLift::SearchTargetSlot()
 {
     if (DEBUG)
@@ -161,6 +135,32 @@ void ControllerLift::SearchTargetSlot()
         emit GotTargetSignal(currentFloor, targetFloor);
     else
         emit NoTargetSignal();
+}
+
+void ControllerLift::GotTargetSlot(int _currentFloor, int _targetFloor)
+{
+    if (DEBUG)
+        std::cout << "\tControllerLift::GotTargetSlot" << 
+            " cur - " << _currentFloor << " trg t - " << _targetFloor <<  std::endl;
+
+    if (!(status == BUSY || status == INSEARCH))
+        return;
+
+    status = BUSY;
+    currentFloor = _currentFloor;
+    targetFloor = _targetFloor;
+
+    if (currentFloor == targetFloor)
+    {
+        endActionButtons(currentFloor);
+        emit StopOnFloorSignal(currentFloor);
+        // emit NeedNewTargetSignal();
+    }
+    else
+    {
+        direction = currentFloor > targetFloor ? DOWN : UP;
+        emit MoveControllerSignal(currentFloor, targetFloor, direction);
+    }
 }
 
 void ControllerLift::FreeSlot()

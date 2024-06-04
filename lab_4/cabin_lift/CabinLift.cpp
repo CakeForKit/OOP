@@ -6,6 +6,8 @@ CabinLift::CabinLift(QObject *parent, int _movetime)
 : QObject(parent), movetime(_movetime), doors()
 {
     assert(movetime > 0);
+
+    status = STAND;
     currentFloor = 1;
     targetFloor = 1;
     direction = STOP;
@@ -14,8 +16,6 @@ CabinLift::CabinLift(QObject *parent, int _movetime)
     connect(&timer, &QTimer::timeout, this, &CabinLift::MoveCabinSlot);
     connect(this, &CabinLift::OpenDoorsSignal, &doors, &DoorsLift::OpeningSlot);
     connect(&doors, &DoorsLift::ClosedSignal, this, &CabinLift::CloseDoorsCabinSlot);
-
-    status = STAND;
 }
 
 void CabinLift::GotCommandMove(int _currentFloor, int _targetFloor, Direction _direction)
@@ -41,11 +41,14 @@ void CabinLift::MoveCabinSlot()
         std::cout << "\tCabinLift::MoveCabinSlot" << 
             " cur - " << currentFloor << " trgt - " << targetFloor << std::endl;
 
-    status = MOVING;
-    timer.start(movetime);
-    currentFloor += direction;
-    std::cout << "Лифт на " << currentFloor << " этаже." << std::endl;
-    emit ReachedFloorCabinSignal(currentFloor, targetFloor);
+    if (status == MOVING || status == GOTCOMMAND)
+    {
+        status = MOVING;
+        timer.start(movetime);
+        currentFloor += direction;
+        std::cout << "Лифт на " << currentFloor << " этаже." << std::endl;
+        emit ReachedFloorCabinSignal(currentFloor, targetFloor);
+    }
 }
 
 void CabinLift::StopToOpenCabinSlot(int floor)
@@ -70,17 +73,24 @@ void CabinLift::CloseDoorsCabinSlot()
     if (DEBUG)
         std::cout << "\tCabinLift::CloseDoorsCabinSlot" << std::endl;
 
-    status = STAND;
-    timer.stop();
-    emit DoorsClosedSignal();
+    if (status == STANDOPEN)
+    {
+        status = STAND;
+        timer.stop();
+        emit DoorsClosedSignal();
+    }
 }
 
 void CabinLift::StandCabinSlot(int floor)
 {
     if (DEBUG)
         std::cout << "\tCabinLift::StandCabinSlot" << std::endl;
-    status = STAND;
-    timer.stop();
-    std::cout << "Лифт стоит на " << floor << " этаже." << std::endl;
+
+    if (status == STANDOPEN || status == STAND)    // TODO проверить
+    {
+        status = STAND;
+        timer.stop();
+        std::cout << "Лифт стоит на " << floor << " этаже." << std::endl;
+    }
 }
 

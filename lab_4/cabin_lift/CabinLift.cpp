@@ -1,6 +1,6 @@
 #include "CabinLift.h"
 
-#define DEBUG true
+#define DEBUG false
 
 CabinLift::CabinLift(QObject *parent, int _movetime)
 : QObject(parent), movetime(_movetime), doors()
@@ -43,9 +43,11 @@ void CabinLift::MoveCabinSlot()
 
     if (status == MOVING || status == GOTCOMMAND)
     {
+        if (status == MOVING)
+            currentFloor += direction;  // Исправление теперь нет фантомногое прибавления этажа
         status = MOVING;
         timer.start(movetime);
-        currentFloor += direction;
+        
         std::cout << "Лифт на " << currentFloor << " этаже." << std::endl;
         emit ReachedFloorCabinSignal(currentFloor, targetFloor);
     }

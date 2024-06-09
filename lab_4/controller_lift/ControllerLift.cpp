@@ -1,6 +1,6 @@
 #include "ControllerLift.h"
 
-#define DEBUG true
+#define DEBUG false
 
 ControllerLift::ControllerLift(int _minFloor, int _maxFloor, QWidget *parant)
 : QWidget(parant), minFloor(_minFloor), maxFloor(_maxFloor)
@@ -18,9 +18,9 @@ ControllerLift::ControllerLift(int _minFloor, int _maxFloor, QWidget *parant)
     direction = STOP;
     currentFloor = 1;
     targetFloor = 1;
-    callsFloorsUp = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor, std::make_pair(false, INLIFT_BRN));
-    callsFloorsDown = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor, std::make_pair(false, INLIFT_BRN));
-    callsFloorsInLift = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor, std::make_pair(false, INLIFT_BRN));
+    callsFloorsUp = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor + 1, std::make_pair(false, INLIFT_BRN));
+    callsFloorsDown = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor + 1, std::make_pair(false, INLIFT_BRN));
+    callsFloorsInLift = std::vector<std::pair<bool, TypeBtn>>(maxFloor - minFloor + 1, std::make_pair(false, INLIFT_BRN));
 
     for (int i = minFloor; i <= maxFloor; ++i)
     {
@@ -91,45 +91,7 @@ void ControllerLift::SearchTargetSlot()
 
     status = INSEARCH;
 
-    // ищем наиболее близкую цель среди inLift запросов
-    int indexnewTarget = -1;
-    int indexCurrentFloor = indexByFloor(currentFloor);
-    for (int i = 0; i < static_cast<int>(countFloors()); ++i)
-    {
-        if (callsFloorsInLift[i].first && (indexnewTarget == -1 || 
-                abs(i - indexCurrentFloor) < abs(indexnewTarget - indexCurrentFloor)))
-            indexnewTarget = i;
-    }
-
-    bool find = false;
-    if (indexnewTarget >= 0)
-    {
-        targetFloor = floorByIndex(indexnewTarget);
-        find = true;
-
-        if (DEBUG)
-            std::cout << "\t\t INLIFT targetFloor = " << targetFloor << std::endl;
-    }
-    else
-    {
-        // берем самую дальнюю цель, чтобы потом подобрать длижние
-        for (int i = static_cast<int>(countFloors()) - 1; !find && i >= 0; --i)
-            if (callsFloorsDown[i].first)
-            {
-                targetFloor = i + minFloor;
-                find = true;
-            }
-        if (DEBUG && find)
-            std::cout << "\t\t DOWN targetFloor = " << targetFloor << std::endl;
-        for (size_t i = 0; !find && i < countFloors(); ++i)
-            if (callsFloorsUp[i].first)
-            {
-                targetFloor = i + minFloor;
-                find = true;
-            }
-        if (DEBUG && find)
-            std::cout << "\t\t UP targetFloor = " << targetFloor << std::endl;
-    }
+    bool find = chooseNewTartget();
 
     if (find)
         emit GotTargetSignal(currentFloor, targetFloor);
@@ -174,6 +136,59 @@ void ControllerLift::FreeSlot()
         direction = STOP;
         emit StopCabinSignal(currentFloor);
     }
+}
+
+bool ControllerLift::chooseNewTartget()
+{
+    bool find = false;
+
+    int indexnewTarget = -1;
+    int indexCurrentFloor = indexByFloor(currentFloor);
+
+    for (int i = 0; i <= static_cast<int>(countFloors()); ++i)
+    {
+        if (callsFloorsInLift[i].first && (indexnewTarget == -1 || 
+                abs(i - indexCurrentFloor) < abs(indexnewTarget - indexCurrentFloor)))
+        {
+            indexnewTarget = i;
+        }
+    }
+    if (indexnewTarget >= 0)
+    {
+        find = true;
+        targetFloor = floorByIndex(indexnewTarget);
+    }
+    if (DEBUG && find)
+        std::cout << "\t\t INLIFT targetFloor = " << targetFloor << std::endl;
+
+    bool find_max = false;
+    for (int i = static_cast<int>(countFloors()); !find_max && i >= 0; --i)
+        if (callsFloorsDown[i].first)
+        {
+            if (find)
+                targetFloor = (targetFloor >= i + minFloor) ? targetFloor : i + minFloor;
+            else
+                targetFloor = i + minFloor;
+            find_max = true;
+        }
+
+    if (DEBUG && (find || find_max))
+        std::cout << "\t\t DOWN targetFloor = " << targetFloor << std::endl;
+
+    bool find_min = false;
+    for (size_t i = 0; !find_min && i < countFloors() + 1; ++i)
+        if (callsFloorsUp[i].first)
+        {
+            if (find || find_max)
+                targetFloor = (targetFloor <= i + minFloor) ? targetFloor : i + minFloor;
+            else
+                targetFloor = i + minFloor;
+            find_min = true;
+        }
+    if (DEBUG && (find || find_max || find_min))
+        std::cout << "\t\t UP targetFloor = " << targetFloor << std::endl;
+
+    return find || find_max || find_min;
 }
 
 void ControllerLift::endActionButtons(int floor)

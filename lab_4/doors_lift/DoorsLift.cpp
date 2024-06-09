@@ -1,7 +1,7 @@
 #include "DoorsLift.h"
 #include <iostream>
 
-#define DEBUG true
+#define DEBUG false
 
 DoorsLift::DoorsLift(int _openingTime, int _openedTime, int _closingTime)
 : openingTime(_openingTime), openedTime(_openedTime), closingTime(_closingTime)
@@ -17,7 +17,7 @@ void DoorsLift::OpeningSlot()
     if (DEBUG)
         std::cout << "\tDoorsLift::OpeningSlot" << std::endl;
 
-    if (status == CLOSED || status == CLOSING)
+    if (status == CLOSED)   // исправлено, пока двери не закроются у меня они не начнут открываться, т е на серредине закрытия или открытия они не могут всменить направление движения
     {
         std::cout << "Двери открываются" << std::endl;
         status = OPENING;

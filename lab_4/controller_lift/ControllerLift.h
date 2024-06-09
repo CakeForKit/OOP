@@ -57,6 +57,7 @@ private:
     std::vector<std::pair<bool, TypeBtn>> callsFloorsInLift;
 
     void endActionButtons(int floor);
+    bool chooseNewTartget();
     bool isFloorExist(int floor);
     inline int floorByIndex(size_t ind) noexcept;
     inline size_t indexByFloor(int floor) noexcept;
